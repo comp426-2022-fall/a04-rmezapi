@@ -16,88 +16,74 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req, res, next) => {
-    res.status(404).send("404 NOT FOUND")
-    next()
+    res
+        .status(404)
+        .send("404 NOT FOUND")
 })
 
 app.get('/app/', (req, res, next) => {
     console.log("200 OK")
-    res.status(200).send("200 OK")
-    next()
+    res
+        .status(200)
+        .send("200 OK")
+    // return res.status(200)
 
 })
 
 app.get('/app/roll/', (req, res, next) => {
-    results = {
-        sides: 6,
-        dice: 2,
-        rolls: 1,
-        results: roll(6, 2, 1)
-    }
-    console.log(results)
-    res.status(200).json(results)
-
-    next
+    results = roll(6, 2, 1)
+    res
+        .status(200)
+        .json(results)
 })
+
+// app.get('/app/roll/', (req, res, next) => {
+//     sides = req.body.sides || 6
+//     dice = req.body.dice || 2
+//     rolls = req.body.rolls || 1
+//     results = roll(sides, dice, rolls)
+        
+//     return res.status(200).json(results)
+// })
 
 app.post('/app/roll/', (req, res, next) => {
     sides = req.body.sides || 6
     dice = req.body.dice || 2
     rolls = req.body.rolls || 1
-    results = {
-        sides: sides,
-        dice: dice,
-        rolls: rolls,
-        results: roll(sides, dice, rolls)
-    }
-    console.log(results)
-    res.status(200).json(results)
-    next()
-
+    results = roll(sides, dice, rolls)
+        
+    res
+        .status(200)    
+        .json(results)
 })
 
-app.post('/app/roll/:sides/', (req, res, next) => {
-    sides = req.params.sides
+app.use('/app/roll/:sides/', (req, res, next) => {
+    sides = req.params.sides 
     dice = req.body.dice || 2
     rolls = req.body.rolls || 1
-    results = {
-        sides: sides,
-        dice: dice,
-        rolls: rolls,
-        results: roll(sides, dice, rolls)
-    }
-    console.log(results)
-    res.status(200).json(results)
-    next
+    results = roll(sides, dice, rolls)
+    res
+        .status(200)
+        .json(results)
 })
 
-app.post('/app/roll/:sides/:dice/', (req, res, next) => {
+app.use('/app/roll/:sides/:dice/', (req, res, next) => {
     sides = req.params.sides
     dice = req.params.dice
     rolls = req.body.rolls || 1
-    results = {
-        sides: sides,
-        dice: dice,
-        rolls: rolls,
-        results: roll(sides, dice, rolls)
-    }
-    console.log(results)
-    res.status(200).json(results)
-    next
+    results = roll(sides, dice, rolls)
+    res
+        .set('Content-Type', 'application/json')
+        .status(200).json(results)
 })
 
-app.post('/app/roll/:sides/:dice/:rolls/', (req, res, next) => {
-    results = {
-        sides: req.params.sides,
-        dice: req.params.dice,
-        rolls: req.params.rolls,            
-        results: roll(req.params.sides, req.params.dice, req.params.rolls) 
-    }
-    res.status(200).json(results)
-    next
+app.use('/app/roll/:sides/:dice/:rolls/', (req, res, next) => {
+    results = roll(req.params.sides, req.params.dice, req.params.rolls)
+    res
+        .status(200)
+        .json(results)
 })
 
 app.listen(port, () => {
-    console.log("Server listening on port: " + port + "\n")
+    console.log("Server now running in port: ", port)
 })
-
