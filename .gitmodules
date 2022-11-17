@@ -1,0 +1,3 @@
+[submodule "lib/a03-rmezapi"]
+	path = lib/a03-rmezapi
+	url = https://github.com/comp426-2022-fall/a03-rmezapi
