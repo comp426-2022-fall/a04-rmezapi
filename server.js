@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import minimist from "minimist"
-import { roll } from "./lib/a03-rmezapi/lib/roll.js"
+import { roll } from "./lib/roll.js"
 import express from "express"
 
 const args = minimist(process.argv.slice(2))
