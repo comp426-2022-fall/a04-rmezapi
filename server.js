@@ -50,39 +50,59 @@ app.post('/app/roll/', (req, res, next) => {
     sides = req.body.sides || 6
     dice = req.body.dice || 2
     rolls = req.body.rolls || 1
-    results = roll(sides, dice, rolls)
-        
-    res
-        .status(200)    
-        .json(results)
+    if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
+        res.status(404).send("404 NOT FOUND").end()
+    }
+    else {results = roll(sides, dice, rolls)
+        res
+            .set('Content-Type', 'application/json')
+            .status(200).json(results)
+    }
 })
 
 app.use('/app/roll/:sides/', (req, res, next) => {
     sides = req.params.sides 
     dice = req.body.dice || 2
     rolls = req.body.rolls || 1
-    results = roll(sides, dice, rolls)
-    res
-        .status(200)
-        .json(results)
+    if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
+        res.status(404).send("404 NOT FOUND").end()
+    }
+    else {results = roll(sides, dice, rolls)
+        res
+            .set('Content-Type', 'application/json')
+            .status(200).json(results)
+    }
 })
 
 app.use('/app/roll/:sides/:dice/', (req, res, next) => {
     sides = req.params.sides
     dice = req.params.dice
     rolls = req.body.rolls || 1
-    results = roll(sides, dice, rolls)
-    res
-        .set('Content-Type', 'application/json')
-        .status(200).json(results)
+    if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
+        res.status(404).send("404 NOT FOUND").end()
+    }
+    else {results = roll(sides, dice, rolls)
+        res
+            .set('Content-Type', 'application/json')
+            .status(200).json(results)
+    }
 })
 
 app.use('/app/roll/:sides/:dice/:rolls/', (req, res, next) => {
-    results = roll(req.params.sides, req.params.dice, req.params.rolls)
-    res
-        .status(200)
-        .json(results)
+    if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
+        res.status(404).send("404 NOT FOUND").end()
+    }
+    else {
+        results = roll(req.params.sides, req.params.dice, req.params.rolls)
+        res
+            .set('Content-Type', 'application/json')
+            .status(200).json(results)
+    }
 })
+
+app.get('*', (req, res) => {
+    res.status(404).send('404 NOT FOUND')
+  })
 
 app.listen(port, () => {
     console.log("Server now running in port: ", port)
