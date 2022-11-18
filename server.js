@@ -37,19 +37,11 @@ app.get('/app/roll/', (req, res, next) => {
         .json(results)
 })
 
-// app.get('/app/roll/', (req, res, next) => {
-//     sides = req.body.sides || 6
-//     dice = req.body.dice || 2
-//     rolls = req.body.rolls || 1
-//     results = roll(sides, dice, rolls)
-        
-//     return res.status(200).json(results)
-// })
 
 app.post('/app/roll/', (req, res, next) => {
-    sides = req.body.sides || 6
-    dice = req.body.dice || 2
-    rolls = req.body.rolls || 1
+    sides = parseInt(req.body.sides) || 6
+    dice = parseInt(req.body.dice) || 2
+    rolls = parseInt(req.body.rolls) || 1
     if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
         res.status(404).send("404 NOT FOUND").end()
     }
@@ -62,9 +54,9 @@ app.post('/app/roll/', (req, res, next) => {
 })
 
 app.get('/app/roll/:sides/', (req, res, next) => {
-    sides = req.params.sides 
-    dice = req.body.dice || 2
-    rolls = req.body.rolls || 1
+    sides = parseInt(req.params.sides )
+    dice = parseInt(req.body.dice) || 2
+    rolls = parseInt(req.body.rolls) || 1
     if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
         res.status(404).send("404 NOT FOUND").end()
     }
