@@ -53,14 +53,15 @@ app.post('/app/roll/', (req, res, next) => {
     if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
         res.status(404).send("404 NOT FOUND").end()
     }
-    else {results = roll(sides, dice, rolls)
+    else {
+        results = roll(sides, dice, rolls)
         res
             .set('Content-Type', 'application/json')
             .status(200).json(results)
     }
 })
 
-app.post('/app/roll/:sides/', (req, res, next) => {
+app.get('/app/roll/:sides/', (req, res, next) => {
     sides = req.params.sides 
     dice = req.body.dice || 2
     rolls = req.body.rolls || 1
@@ -72,28 +73,33 @@ app.post('/app/roll/:sides/', (req, res, next) => {
             .set('Content-Type', 'application/json')
             .status(200).json(results)
     }
+    next()
 })
 
-app.post('/app/roll/:sides/:dice/', (req, res, next) => {
-    sides = req.params.sides
-    dice = req.params.dice
-    rolls = req.body.rolls || 1
-    if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
-        res.status(404).send("404 NOT FOUND").end()
-    }
-    else {results = roll(sides, dice, rolls)
-        res
-            .set('Content-Type', 'application/json')
-            .status(200).json(results)
-    }
-})
-
-app.post('/app/roll/:sides/:dice/:rolls/', (req, res, next) => {
+app.get('/app/roll/:sides/:dice', (req, res, next) => {
+    sides = parseInt(req.params.sides)
+    dice = parseInt(req.params.dice)
+    rolls = parseInt(req.body.rolls) || 1
     if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
         res.status(404).send("404 NOT FOUND").end()
     }
     else {
-        results = roll(req.params.sides, req.params.dice, req.params.rolls)
+        results = roll(sides, dice, rolls)
+        res
+            .set('Content-Type', 'application/json')
+            .status(200).json(results).end()
+    }
+})
+
+app.get('/app/roll/:sides/:dice/:rolls', (req, res, next) => {
+    sides = parseInt(req.params.sides) || 6
+    dice = parseInt(req.params.dice) || 2
+    rolls = parseInt(req.params.rolls) || 1
+    if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
+        res.status(404).send("404 NOT FOUND").end()
+    }
+    else {
+        results = roll(sides, dice, rolls)
         res
             .set('Content-Type', 'application/json')
             .status(200).json(results)
