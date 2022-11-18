@@ -60,7 +60,7 @@ app.post('/app/roll/', (req, res, next) => {
     }
 })
 
-app.use('/app/roll/:sides/', (req, res, next) => {
+app.post('/app/roll/:sides/', (req, res, next) => {
     sides = req.params.sides 
     dice = req.body.dice || 2
     rolls = req.body.rolls || 1
@@ -74,7 +74,7 @@ app.use('/app/roll/:sides/', (req, res, next) => {
     }
 })
 
-app.use('/app/roll/:sides/:dice/', (req, res, next) => {
+app.post('/app/roll/:sides/:dice/', (req, res, next) => {
     sides = req.params.sides
     dice = req.params.dice
     rolls = req.body.rolls || 1
@@ -88,7 +88,7 @@ app.use('/app/roll/:sides/:dice/', (req, res, next) => {
     }
 })
 
-app.use('/app/roll/:sides/:dice/:rolls/', (req, res, next) => {
+app.post('/app/roll/:sides/:dice/:rolls/', (req, res, next) => {
     if (isNaN(sides) || isNaN(dice) || isNaN(dice)){
         res.status(404).send("404 NOT FOUND").end()
     }
